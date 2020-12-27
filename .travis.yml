@@ -1,0 +1,23 @@
+sudo: required
+
+services: 
+  - docker
+
+before_install: 
+  - docker build -t client-test:dev -f ./client/Dockerfile.dev ./client
+
+scripts:
+  - docker container run client-test:dev npm test -- --coverage
+
+after_success:
+  - docker build -t kquest/multi-client:dev ./client
+  - docker build -t kquest/multi-nginx:dev ./nginx
+  - docker build -t kquest/multi-server:dev ./server
+  - docker build -t kquest/multi-wroker:dev ./worker
+  #login to docker
+  - echo "$DOCKER_ACCESS_TOKEN" | docker login -u "$DOCKER_ID" --password-stdin
+  #push images to docker
+  - docker push kquest/multi-client:dev
+  - docker push kquest/multi-nginx:dev
+  - docker push kquest/multi-server:dev
+  - docker push kquest/multi-worker:dev
