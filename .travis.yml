@@ -15,9 +15,9 @@ after_success:
   - docker build -t kquest/multi-server:dev ./server
   - docker build -t kquest/multi-wroker:dev ./worker
   #login to docker
-  - echo "$DOCKER_ACCESS_TOKEN" | docker login -u "$DOCKER_ID" --password-stdin
+  - echo "$DOCKER_ACCESS_TOKEN" | docker login -u "$DOCKER_ID" --password "$DOCKER_ACCESS_TOKEN"
   #push images to docker
-  - docker push kquest/multi-client
-  - docker push kquest/multi-nginx
-  - docker push kquest/multi-server
-  - docker push kquest/multi-worker
+  - docker push kquest/multi-client:dev
+  - docker push kquest/multi-nginx:dev
+  - docker push kquest/multi-server:dev
+  - docker push kquest/multi-worker:dev
