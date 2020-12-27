@@ -7,7 +7,7 @@ before_install:
   - docker build -t client-test:dev -f ./client/Dockerfile.dev ./client
 
 scripts:
-  - docker container run client-test:dev npm test -- --coverage
+  - docker container run -e CI=true client-test:dev npm test
 
 after_success:
   - docker build -t kquest/multi-client:dev ./client
